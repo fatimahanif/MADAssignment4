@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Pressable, TextInput} from 'react-native';
 import CustomButton from '../components/CustomButton';
 
 const LoginScreen = ({navigation}) => {
@@ -9,17 +9,38 @@ const LoginScreen = ({navigation}) => {
         <Text style={styles.text}>Login and get started</Text>
       </View>
       <View style={styles.contentContainer}>
+        <View style={styles.inuptContainer}>
+          <TextInput
+            style={styles.inupt}
+            keyboardType="email-address"
+            placeholder="Email"
+            placeholderTextColor={'#113F6795'}
+          />
+          <TextInput
+            style={styles.inupt}
+            placeholder="Password"
+            placeholderTextColor={'#113F6795'}
+            secureTextEntry
+          />
+        </View>
+
         <CustomButton
           title="Login"
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate('Home');
           }}
           style={styles.button}
         />
+
         <View style={styles.linkContainer}>
           <Text style={styles.linkText}>Don't have an account?</Text>
-          <Pressable onPress={()=>{navigation.navigate('Register')}}>
-            <Text style={{...styles.linkText, textDecorationLine: 'underline'}}>Register Now</Text>
+          <Pressable
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
+            <Text style={{...styles.linkText, textDecorationLine: 'underline'}}>
+              Register Now
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -30,16 +51,17 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     alignItems: 'center',
   },
   topContainer: {
-    backgroundColor: '#fff',
-    paddingVertical: 35,
+    backgroundColor: '#f5f5f5',
     paddingHorizontal: 20,
     width: '100%',
     borderBottomRightRadius: 50,
     elevation: 2.5,
+    height: '25%',
+    justifyContent: 'center',
   },
   welcome: {
     fontFamily: 'Nunito-SemiBold',
@@ -73,7 +95,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito-Regular',
     color: '#484848',
     paddingHorizontal: 3,
-  }
+  },
+  inuptContainer:{
+    marginVertical: 10,
+  },
+  inupt: {
+    padding: 10,
+    borderWidth: 1.5,
+    borderRadius: 10,
+    elevation: 2,
+    borderColor: '#113F67',
+    width: '95%',
+    alignSelf: 'center',
+    backgroundColor: '#f5f5f5',
+    color: '#000',
+    marginVertical: 8,
+    fontFamily: 'Nunito-Regular',
+    fontSize: 16,
+  },
 });
 
 export default LoginScreen;
