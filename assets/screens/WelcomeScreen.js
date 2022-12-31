@@ -1,4 +1,4 @@
-import {Text, Image, View, Pressable, StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet} from 'react-native';
 import CustomButton from '../components/CustomButton';
 
 const WelcomeScreen = ({navigation}) => {
