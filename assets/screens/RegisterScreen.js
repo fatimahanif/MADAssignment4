@@ -1,6 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Pressable, TextInput, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import CustomButton from '../components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = ({navigation}) => {
   const nameRe = /^[\w ]{2,}$/;
@@ -14,7 +22,36 @@ const RegisterScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorText, setErrorText] = useState('');
 
-  const checkInput = () => {
+  const checkInput = async () => {
+    if (!nameRe.test(name)) {
+      setErrorText('Name must be at least 2 characters long!');
+    } else if (!emailRe.test(email)) {
+      setErrorText('Invalid email');
+    } else if (!passwordRe.test(password)) {
+      setErrorText(
+        'Password must be at least 8 characters with upper and lower case letters, numbers and special characters',
+      );
+    } else if (password !== confirmPassword) {
+      setErrorText('Password and confirm password  must be same');
+    } else {
+      try {
+        const user = {
+          name: name,
+          email: email,
+          password: password,
+        };
+        const jsonValue = JSON.stringify(user);
+        await AsyncStorage.setItem('@userInfo', jsonValue);
+      } catch (e) {
+        alert('Error in registration. Please try again!');
+        return;
+      }
+      setErrorText('');
+      navigation.navigate('Home');
+    }
+  };
+
+  useEffect(() => {
     if (!nameRe.test(name)) {
       setErrorText('Name must be at least 2 characters long!');
     } else if (!emailRe.test(email)) {
@@ -27,9 +64,12 @@ const RegisterScreen = ({navigation}) => {
       setErrorText('Password and confirm password  must be same');
     } else {
       setErrorText('');
-      navigation.navigate('Home');
     }
-  };
+  }, [name, email, password, confirmPassword]);
+
+  useEffect(() => {
+    setErrorText('');
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -37,7 +77,9 @@ const RegisterScreen = ({navigation}) => {
         <Text style={styles.welcome}>New Account</Text>
         <Text style={styles.text}>Register and get started</Text>
       </View>
-      <ScrollView style={styles.contentContainer} contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+      <ScrollView
+        style={styles.contentContainer}
+        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.inuptContainer}>
           <TextInput
             style={styles.inupt}

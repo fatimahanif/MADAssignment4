@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import CustomButton from '../components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}) => {
   const emailRe = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -18,14 +19,35 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
 
-  const checkInput = () => {
+  const checkInput = async () => {
     if (emailRe.test(email) && passwordRe.test(password)) {
-      setErrorText('');
-      navigation.navigate('Home');
+      let user = {};
+      try {
+        const jsonValue = await AsyncStorage.getItem('@userInfo');
+        if (jsonValue === null) {
+          alert('No data was found. Kindly register first!');
+          return;
+        } else {
+          user = JSON.parse(jsonValue);
+          if (user.email == email && user.password == password) {
+            setErrorText('');
+            navigation.navigate('Home');
+          } else {
+            setErrorText('Invalid username or password');
+          }
+        }
+      } catch (e) {
+        alert('An error occured. Please try again!');
+        return;
+      }
     } else {
       setErrorText('Invalid username or password');
     }
   };
+
+  useEffect(() => {
+    setErrorText('');
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -33,7 +55,9 @@ const LoginScreen = ({navigation}) => {
         <Text style={styles.welcome}>Welcome!</Text>
         <Text style={styles.text}>Login and get started</Text>
       </View>
-      <ScrollView style={styles.contentContainer} contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+      <ScrollView
+        style={styles.contentContainer}
+        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.inuptContainer}>
           <TextInput
             style={styles.inupt}
