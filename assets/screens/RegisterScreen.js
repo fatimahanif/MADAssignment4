@@ -1,46 +1,82 @@
-import {Text, View, StyleSheet, Pressable, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, View, StyleSheet, Pressable, TextInput, ScrollView} from 'react-native';
 import CustomButton from '../components/CustomButton';
 
 const RegisterScreen = ({navigation}) => {
+  const nameRe = /^[\w ]{2,}$/;
+  const emailRe = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const passwordRe =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  const checkInput = () => {
+    if (!nameRe.test(name)) {
+      setErrorText('Name must be at least 2 characters long!');
+    } else if (!emailRe.test(email)) {
+      setErrorText('Invalid email');
+    } else if (!passwordRe.test(password)) {
+      setErrorText(
+        'Password must be at least 8 characters with upper and lower case letters, numbers and special characters',
+      );
+    } else if (password !== confirmPassword) {
+      setErrorText('Password and confirm password  must be same');
+    } else {
+      setErrorText('');
+      navigation.navigate('Home');
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <Text style={styles.welcome}>New Account</Text>
         <Text style={styles.text}>Register and get started</Text>
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer} contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.inuptContainer}>
           <TextInput
             style={styles.inupt}
             placeholder="Name"
             placeholderTextColor={'#113F6795'}
-            inlineImageLeft="user.png"
+            value={name}
+            onChangeText={setName}
           />
           <TextInput
             style={styles.inupt}
             keyboardType="email-address"
             placeholder="Email"
             placeholderTextColor={'#113F6795'}
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             style={styles.inupt}
             placeholder="Password"
             placeholderTextColor={'#113F6795'}
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
           <TextInput
             style={styles.inupt}
             placeholder="Confirm Password"
             placeholderTextColor={'#113F6795'}
             secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
           />
         </View>
 
+        <Text style={styles.errorText}>{errorText}</Text>
+
         <CustomButton
           title="Register"
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
+          onPress={checkInput}
           style={styles.button}
         />
 
@@ -55,7 +91,7 @@ const RegisterScreen = ({navigation}) => {
             </Text>
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -90,8 +126,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 15,
     width: '100%',
-    justifyContent: 'center',
-    flex: 1,
+    // justifyContent: 'center',
+    // flex: 1,
   },
   button: {
     marginVertical: 10,
@@ -108,7 +144,7 @@ const styles = StyleSheet.create({
     color: '#484848',
     paddingHorizontal: 3,
   },
-  inuptContainer:{
+  inuptContainer: {
     marginVertical: 10,
   },
   inupt: {
@@ -124,6 +160,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontFamily: 'Nunito-Regular',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    fontFamily: 'Nunito-Regular',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 

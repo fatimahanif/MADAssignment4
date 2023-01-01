@@ -1,34 +1,63 @@
-import {Text, View, StyleSheet, Pressable, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import CustomButton from '../components/CustomButton';
 
 const LoginScreen = ({navigation}) => {
+  const emailRe = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const passwordRe =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  const checkInput = () => {
+    if (emailRe.test(email) && passwordRe.test(password)) {
+      setErrorText('');
+      navigation.navigate('Home');
+    } else {
+      setErrorText('Invalid username or password');
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <Text style={styles.welcome}>Welcome!</Text>
         <Text style={styles.text}>Login and get started</Text>
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer} contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.inuptContainer}>
           <TextInput
             style={styles.inupt}
             keyboardType="email-address"
             placeholder="Email"
             placeholderTextColor={'#113F6795'}
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             style={styles.inupt}
             placeholder="Password"
             placeholderTextColor={'#113F6795'}
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
         </View>
 
+        <Text style={styles.errorText}>{errorText}</Text>
+
         <CustomButton
           title="Login"
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
+          onPress={checkInput}
           style={styles.button}
         />
 
@@ -43,7 +72,7 @@ const LoginScreen = ({navigation}) => {
             </Text>
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -78,8 +107,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 15,
     width: '100%',
-    justifyContent: 'center',
-    flex: 1,
+    // justifyContent: 'center',
+    // flex: 1,
   },
   button: {
     marginVertical: 10,
@@ -96,7 +125,7 @@ const styles = StyleSheet.create({
     color: '#484848',
     paddingHorizontal: 3,
   },
-  inuptContainer:{
+  inuptContainer: {
     marginVertical: 10,
   },
   inupt: {
@@ -112,6 +141,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontFamily: 'Nunito-Regular',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    fontFamily: 'Nunito-Regular',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 
