@@ -8,7 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 
-const CommentsScreen = () => {
+const CommentsScreen = ({navigation}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -46,7 +46,11 @@ const CommentsScreen = () => {
           }}
           refreshing={refreshing}
           renderItem={item => (
-            <Pressable style={styles.commentContainer} onPress={()=>{alert(JSON.stringify(item.item))}}>
+            <Pressable
+              style={styles.commentContainer}
+              onPress={() => {
+                navigation.navigate('Comment Details', {comment: item.item});
+              }}>
               <Text style={styles.commentHead}>
                 {item.item.id}. {item.item.name}
               </Text>

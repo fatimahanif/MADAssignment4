@@ -5,7 +5,7 @@ const CustomButton = props => {
     <Pressable
       onPress={props.onPress}
       style={{...styles.button, ...props.style}}>
-      <Text style={styles.text}>{props.title}</Text>
+      <Text style={{...styles.text, ...props.textStyle}}>{props.title}</Text>
     </Pressable>
   );
 };
