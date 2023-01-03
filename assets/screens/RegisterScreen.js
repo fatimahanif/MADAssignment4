@@ -47,7 +47,7 @@ const RegisterScreen = ({navigation}) => {
         return;
       }
       setErrorText('');
-      navigation.navigate('Home');
+      navigation.navigate('Comments');
     }
   };
 

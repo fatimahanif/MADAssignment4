@@ -31,7 +31,7 @@ const LoginScreen = ({navigation}) => {
           user = JSON.parse(jsonValue);
           if (user.email == email && user.password == password) {
             setErrorText('');
-            navigation.navigate('Home');
+            navigation.navigate('Comments');
           } else {
             setErrorText('Invalid username or password');
           }
