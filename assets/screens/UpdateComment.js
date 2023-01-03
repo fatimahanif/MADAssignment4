@@ -22,8 +22,6 @@ const UpdateComment = ({route, navigation}) => {
   const [body, setBody] = useState(comment.body);
   const [errorText, setErrorText] = useState('');
 
-  console.log(comment.postId)
-
   const checkInput = () => {
     if (postId > 100 || postId < 1) {
       setErrorText('Incorrect post id');
