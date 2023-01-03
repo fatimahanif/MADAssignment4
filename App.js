@@ -10,6 +10,8 @@ import RegisterScreen from './assets/screens/RegisterScreen';
 import WelcomeScreen from './assets/screens/WelcomeScreen';
 import HomeScreen from './assets/screens/CommentsScreen';
 import CommentDetails from './assets/screens/CommentDetails';
+import NewComment from './assets/screens/NewComment';
+import UpdateComment from './assets/screens/UpdateComment';
 
 const App: () => Node = () => {
   const Stack = createNativeStackNavigator();
@@ -47,6 +49,22 @@ const App: () => Node = () => {
           <Stack.Screen
             name="Comment Details"
             component={CommentDetails}
+            options={{
+              headerTitleStyle: styles.title,
+              headerTintColor: '#113F67',
+            }}
+          />
+          <Stack.Screen
+            name="New Comment"
+            component={NewComment}
+            options={{
+              headerTitleStyle: styles.title,
+              headerTintColor: '#113F67',
+            }}
+          />
+          <Stack.Screen
+            name="Update Comment"
+            component={UpdateComment}
             options={{
               headerTitleStyle: styles.title,
               headerTintColor: '#113F67',

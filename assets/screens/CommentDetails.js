@@ -1,5 +1,6 @@
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 import CustomButton from '../components/CustomButton';
+
 const CommentDetails = ({route, navigation}) => {
   const {comment} = route.params;
   return (
@@ -25,7 +26,7 @@ const CommentDetails = ({route, navigation}) => {
               .then(response => response.json())
               // .then(json => console.log(json))
               .then(alert('Comment Deleted!'))
-              .then(navigation.goBack());
+              .then(navigation.navigate('Comments'));
           }}
           style={{
             ...styles.button,
@@ -37,7 +38,7 @@ const CommentDetails = ({route, navigation}) => {
         <CustomButton
           title="Update"
           onPress={() => {
-            alert('hi');
+            navigation.navigate('Update Comment', {comment: comment});
           }}
           style={styles.button}
         />
