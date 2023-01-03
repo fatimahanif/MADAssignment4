@@ -109,27 +109,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  topContainer: {
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 20,
-    width: '100%',
-    borderBottomRightRadius: 50,
-    elevation: 2.5,
-    height: '25%',
-    justifyContent: 'center',
-  },
-  welcome: {
-    fontFamily: 'Nunito-SemiBold',
-    fontSize: 26,
-    color: '#113F67',
-    marginVertical: 5,
-  },
-  text: {
-    fontFamily: 'Nunito-Regular',
-    fontSize: 20,
-    color: '#000',
-    marginVertical: 5,
-  },
   contentContainer: {
     paddingHorizontal: 15,
     width: '100%',
@@ -138,18 +117,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 10,
-  },
-  linkContainer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    marginVertical: 5,
-    alignItems: 'center',
-  },
-  linkText: {
-    fontSize: 16,
-    fontFamily: 'Nunito-Regular',
-    color: '#484848',
-    paddingHorizontal: 3,
   },
   inuptContainer: {
     marginVertical: 10,
